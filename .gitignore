@@ -216,3 +216,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Virtual environment
+.venv/
+
+# Datasets
+data/raw/
+data/processed/
+
+# Generated experimental results
+results/
+
+# VS Code
+.vscode/
