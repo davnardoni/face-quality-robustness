@@ -178,6 +178,74 @@ def print_preprocessing_info(lfw, split_df):
         f"[{processed.min()}, {processed.max()}]"
     )
 
+def get_split_images(
+    lfw,
+    split_df,
+    split_name,
+):
+    """
+    Retrieve original RGB images belonging
+    to a specific experimental split.
+    """
+
+    rows = split_df[
+        split_df["split"] == split_name
+    ]
+
+    images = []
+    labels = []
+
+    for _, row in rows.iterrows():
+
+        image_index = int(row["image_index"])
+
+        images.append(
+            lfw.images[image_index]
+        )
+
+        labels.append(
+            int(row["label"])
+        )
+
+    return (
+        np.asarray(images),
+        np.asarray(labels),
+    )
+
+def get_preprocessed_images(
+    lfw,
+    split_df,
+    split_name,
+):
+    """
+    Retrieve and preprocess all images belonging
+    to a specific experimental split.
+    """
+
+    rows = split_df[
+        split_df["split"] == split_name
+    ]
+
+    images = []
+
+    labels = []
+
+    for _, row in rows.iterrows():
+
+        image_index = int(row["image_index"])
+
+        image = lfw.images[image_index]
+
+        processed = preprocess_classical(image)
+
+        images.append(processed)
+
+        labels.append(int(row["label"]))
+
+    return (
+        np.asarray(images),
+        np.asarray(labels),
+    )
 
 if __name__ == "__main__":
 
