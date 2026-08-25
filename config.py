@@ -33,3 +33,8 @@ PROBE_SAMPLES_PER_SUBJECT = 4
 
 # Classical recognition preprocessing
 CLASSICAL_IMAGE_SIZE = (94, 125)  # OpenCV uses (width, height)
+
+# Eigenfaces / PCA
+PCA_EXPLAINED_VARIANCE = 0.95
+N_EIGENFACES_TO_SHOW = 8
+PCA_WHITEN = False
