@@ -23,3 +23,13 @@ MIN_FACES_PER_PERSON = 10
 LFW_RESIZE = 1.0
 LFW_COLOR = True
 LFW_FUNNELED = True
+
+# Experimental protocol
+SAMPLES_PER_SUBJECT = 10
+
+TRAIN_SAMPLES_PER_SUBJECT = 5
+GALLERY_SAMPLES_PER_SUBJECT = 1
+PROBE_SAMPLES_PER_SUBJECT = 4
+
+# Classical recognition preprocessing
+CLASSICAL_IMAGE_SIZE = (94, 125)  # OpenCV uses (width, height)
