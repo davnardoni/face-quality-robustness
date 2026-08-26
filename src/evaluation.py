@@ -176,6 +176,7 @@ def plot_score_distributions(
     impostor_scores,
     eer_threshold=None,
     save=True,
+    method_name="Eigenfaces",
 ):
     """
     Plot genuine and impostor distance distributions.
@@ -211,7 +212,7 @@ def plot_score_distributions(
     plt.ylabel("Density")
 
     plt.title(
-        "Genuine and Impostor Score Distributions"
+        f"{method_name} - Genuine and Impostor Score Distributions"
     )
 
     plt.legend()
@@ -224,9 +225,15 @@ def plot_score_distributions(
             exist_ok=True,
         )
 
+        filename = (
+            method_name.lower()
+            .replace(" ", "_")
+            .replace("/", "_")
+        )
+
         plt.savefig(
             PLOTS_DIR
-            / "eigenfaces_score_distributions.png",
+            / f"{filename}_score_distributions.png",
             dpi=200,
         )
 
@@ -239,6 +246,7 @@ def plot_far_frr(
     frr,
     eer_threshold=None,
     save=True,
+    method_name="Eigenfaces",
 ):
     """
     Plot FAR and FRR as functions of the threshold.
@@ -269,7 +277,9 @@ def plot_far_frr(
     plt.xlabel("Threshold")
     plt.ylabel("Error rate")
 
-    plt.title("FAR / FRR")
+    plt.title(
+        f"{method_name} - FAR / FRR"
+    )
 
     plt.legend()
     plt.tight_layout()
@@ -281,9 +291,15 @@ def plot_far_frr(
             exist_ok=True,
         )
 
+        filename = (
+            method_name.lower()
+            .replace(" ", "_")
+            .replace("/", "_")
+        )
+
         plt.savefig(
             PLOTS_DIR
-            / "eigenfaces_far_frr.png",
+            / f"{filename}_far_frr.png",
             dpi=200,
         )
 
@@ -294,6 +310,7 @@ def plot_roc(
     far,
     frr,
     save=True,
+    method_name="Eigenfaces",
 ):
     """
     Plot biometric ROC:
@@ -314,7 +331,9 @@ def plot_roc(
     plt.xlabel("False Acceptance Rate (FAR)")
     plt.ylabel("Genuine Acceptance Rate (GAR)")
 
-    plt.title("ROC Curve")
+    plt.title(
+        f"{method_name} - ROC Curve"
+    )
 
     plt.grid(True)
     plt.tight_layout()
@@ -326,9 +345,15 @@ def plot_roc(
             exist_ok=True,
         )
 
+        filename = (
+            method_name.lower()
+            .replace(" ", "_")
+            .replace("/", "_")
+        )
+
         plt.savefig(
             PLOTS_DIR
-            / "eigenfaces_roc.png",
+            / f"{filename}_roc.png",
             dpi=200,
         )
 

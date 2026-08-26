@@ -122,6 +122,7 @@ def run_eigenfaces_baseline():
         genuine_scores,
         impostor_scores,
         eer_threshold,
+        method_name="Eigenfaces",
     )
 
     plot_far_frr(
@@ -129,11 +130,13 @@ def run_eigenfaces_baseline():
         far,
         frr,
         eer_threshold,
+        method_name="Eigenfaces",
     )
 
     plot_roc(
         far,
         frr,
+        method_name="Eigenfaces",
     )
 
     show_eigenfaces(
@@ -224,6 +227,27 @@ def run_lbph_baseline():
         eer_threshold,
     )
 
+    plot_score_distributions(
+        genuine_scores,
+        impostor_scores,
+        eer_threshold,
+        method_name="LBPH",
+    )
+
+    plot_far_frr(
+        thresholds,
+        far,
+        frr,
+        eer_threshold,
+        method_name="LBPH",
+    )
+
+    plot_roc(
+        far,
+        frr,
+        method_name="LBPH",
+    )
+
 def run_deep_baseline():
     """
     Run the clean deep face-recognition baseline.
@@ -311,6 +335,27 @@ def run_deep_baseline():
         impostor_scores,
         eer,
         eer_threshold,
+    )
+
+    plot_score_distributions(
+        genuine_scores,
+        impostor_scores,
+        eer_threshold,
+        method_name="FaceNet",
+    )
+
+    plot_far_frr(
+        thresholds,
+        far,
+        frr,
+        eer_threshold,
+        method_name="FaceNet",
+    )
+
+    plot_roc(
+        far,
+        frr,
+        method_name="FaceNet",
     )
 
 if __name__ == "__main__":
