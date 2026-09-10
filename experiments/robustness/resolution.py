@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from src.plot_style import (
+    apply_paper_style,
+    finish_plot,
+    save_paper_figure,
+)
+
 from config import (
     METRICS_DIR,
     PLOTS_DIR,
@@ -16,6 +22,7 @@ from experiments.robustness.common import (
     evaluate_degraded_probes,
 )
 
+apply_paper_style()
 
 RESOLUTION_LEVELS = [
     1.00,
@@ -118,14 +125,9 @@ def save_resolution_results(results_df):
         index=False,
     )
 
-    plt.figure(
-        figsize=(9, 6)
-    )
+    plt.figure()
 
-    for method in results_df[
-        "method"
-    ].unique():
-
+    for method in results_df["method"].unique():
         method_results = results_df[
             results_df["method"] == method
         ]
@@ -137,35 +139,27 @@ def save_resolution_results(results_df):
             label=method,
         )
 
-    plt.xlabel(
-        "Resolution scale"
-    )
+    plt.xlabel("Resolution scale")
+    plt.ylabel("EER (%)")
+    plt.title("Resolution reduction")
 
-    plt.ylabel(
-        "EER (%)"
-    )
-
-    plt.title(
-        "Robustness to Resolution Reduction"
-    )
+    plt.xticks(RESOLUTION_LEVELS)
 
     plt.axvline(
         1.0,
         linestyle="--",
+        linewidth=1.0,
         label="Original resolution",
     )
 
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-
-    # Resolution decreases from left to right.
     plt.gca().invert_xaxis()
 
-    plt.savefig(
-        PLOTS_DIR
-        / "resolution_robustness.png",
-        dpi=200,
+    plt.legend(loc="best")
+
+    finish_plot()
+
+    save_paper_figure(
+        PLOTS_DIR / "resolution_robustness.png"
     )
 
     plt.show()

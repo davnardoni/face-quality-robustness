@@ -3,6 +3,13 @@ import matplotlib.pyplot as plt
 
 from config import PLOTS_DIR
 
+from src.plot_style import (
+    apply_paper_style,
+    finish_plot,
+    save_paper_figure,
+)
+
+apply_paper_style()
 
 def compute_far_frr(
     genuine_scores,
@@ -182,7 +189,7 @@ def plot_score_distributions(
     Plot genuine and impostor distance distributions.
     """
 
-    plt.figure(figsize=(9, 6))
+    plt.figure()
 
     plt.hist(
         genuine_scores,
@@ -201,25 +208,22 @@ def plot_score_distributions(
     )
 
     if eer_threshold is not None:
-
         plt.axvline(
             eer_threshold,
             linestyle="--",
+            linewidth=1.0,
             label="EER threshold",
         )
 
-    plt.xlabel("Euclidean distance")
+    plt.xlabel("Distance")
     plt.ylabel("Density")
+    plt.title(f"{method_name} score distributions")
 
-    plt.title(
-        f"{method_name} - Genuine and Impostor Score Distributions"
-    )
+    plt.legend(loc="best")
 
-    plt.legend()
-    plt.tight_layout()
+    finish_plot()
 
     if save:
-
         PLOTS_DIR.mkdir(
             parents=True,
             exist_ok=True,
@@ -231,10 +235,9 @@ def plot_score_distributions(
             .replace("/", "_")
         )
 
-        plt.savefig(
+        save_paper_figure(
             PLOTS_DIR
-            / f"{filename}_score_distributions.png",
-            dpi=200,
+            / f"{filename}_score_distributions.png"
         )
 
     plt.show()

@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from src.plot_style import (
+    apply_paper_style,
+    finish_plot,
+    save_paper_figure,
+)
+
 from config import (
     METRICS_DIR,
     PLOTS_DIR,
@@ -16,6 +22,7 @@ from experiments.robustness.common import (
     evaluate_degraded_probes,
 )
 
+apply_paper_style()
 
 NOISE_LEVELS = [
     0.0,
@@ -117,14 +124,9 @@ def save_noise_results(results_df):
         index=False,
     )
 
-    plt.figure(
-        figsize=(9, 6)
-    )
+    plt.figure()
 
-    for method in results_df[
-        "method"
-    ].unique():
-
+    for method in results_df["method"].unique():
         method_results = results_df[
             results_df["method"] == method
         ]
@@ -136,26 +138,17 @@ def save_noise_results(results_df):
             label=method,
         )
 
-    plt.xlabel(
-        "Gaussian noise sigma"
-    )
+    plt.xlabel(r"Gaussian noise $\sigma$")
+    plt.ylabel("EER (%)")
+    plt.title("Gaussian noise")
 
-    plt.ylabel(
-        "EER (%)"
-    )
+    plt.xticks(NOISE_LEVELS)
+    plt.legend(loc="best")
 
-    plt.title(
-        "Robustness to Gaussian Noise"
-    )
+    finish_plot()
 
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-
-    plt.savefig(
-        PLOTS_DIR
-        / "noise_robustness.png",
-        dpi=200,
+    save_paper_figure(
+        PLOTS_DIR / "noise_robustness.png"
     )
 
     plt.show()

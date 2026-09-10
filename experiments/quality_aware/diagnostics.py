@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from src.plot_style import (
+    apply_paper_style,
+    finish_plot,
+    save_paper_figure,
+)
+
 from config import (
     METRICS_DIR,
     PLOTS_DIR,
@@ -11,6 +17,7 @@ from experiments.quality_aware.common import (
     REJECTION_RATES,
 )
 
+apply_paper_style()
 
 def analyze_quality_by_blur(
     quality_scores,
@@ -62,37 +69,30 @@ def analyze_quality_by_blur(
         index=False,
     )
 
-    plt.figure(
-        figsize=(8, 6)
-    )
+    plt.figure()
 
     plt.errorbar(
         statistics["blur_sigma"],
         statistics["mean"],
         yerr=statistics["std"],
         marker="o",
-        capsize=4,
+        linewidth=1.4,
+        markersize=3.8,
+        capsize=2.5,
+        elinewidth=0.8,
+        capthick=0.8,
     )
 
-    plt.xlabel(
-        "Gaussian blur sigma"
-    )
+    plt.xlabel(r"Gaussian blur $\sigma$")
+    plt.ylabel("Mean sharpness")
+    plt.title("Sharpness vs Gaussian blur")
 
-    plt.ylabel(
-        "Mean sharpness quality"
-    )
+    plt.xticks(statistics["blur_sigma"])
 
-    plt.title(
-        "Sharpness Quality vs Gaussian Blur"
-    )
+    finish_plot()
 
-    plt.grid(True)
-    plt.tight_layout()
-
-    plt.savefig(
-        PLOTS_DIR
-        / "sharpness_by_blur.png",
-        dpi=200,
+    save_paper_figure(
+        PLOTS_DIR / "sharpness_by_blur.png"
     )
 
     plt.show()
@@ -217,48 +217,36 @@ def analyze_rejected_blur_levels(
         index=False,
     )
 
-    plt.figure(
-        figsize=(9, 6)
-    )
+    plt.figure()
 
     for sigma in unique_blur_levels:
-
         sigma_df = results_df[
-            results_df["blur_sigma"]
-            == sigma
+            results_df["blur_sigma"] == sigma
         ]
 
         plt.plot(
-            sigma_df[
-                "rejection_rate"
-            ] * 100,
-            sigma_df[
-                "rejected_percent"
-            ],
+            sigma_df["rejection_rate"] * 100,
+            sigma_df["rejected_percent"],
             marker="o",
-            label=f"sigma={sigma}",
+            label=rf"$\sigma={sigma:g}$",
         )
 
-    plt.xlabel(
-        "Overall rejected probe samples (%)"
+    plt.xlabel("Overall rejection (%)")
+    plt.ylabel("Rejected within level (%)")
+    plt.title("Rejected samples by blur level")
+
+    plt.xticks([0, 10, 20, 30, 40, 50])
+    plt.yticks([0, 20, 40, 60, 80, 100])
+
+    plt.legend(
+        loc="upper left",
+        ncol=1,
     )
 
-    plt.ylabel(
-        "Samples rejected within blur level (%)"
-    )
+    finish_plot()
 
-    plt.title(
-        "Composition of Quality-Based Rejection"
-    )
-
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-
-    plt.savefig(
-        PLOTS_DIR
-        / "rejected_samples_by_blur.png",
-        dpi=200,
+    save_paper_figure(
+        PLOTS_DIR / "rejected_samples_by_blur.png"
     )
 
     plt.show()

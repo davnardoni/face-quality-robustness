@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from src.plot_style import (
+    apply_paper_style,
+    finish_plot,
+    save_paper_figure,
+)
+
 from config import (
     METRICS_DIR,
     PLOTS_DIR,
@@ -16,6 +22,7 @@ from experiments.robustness.common import (
     evaluate_degraded_probes,
 )
 
+apply_paper_style()
 
 BRIGHTNESS_LEVELS = [
     0.50,
@@ -113,14 +120,9 @@ def save_brightness_results(results_df):
         index=False,
     )
 
-    plt.figure(
-        figsize=(9, 6)
-    )
+    plt.figure()
 
-    for method in results_df[
-        "method"
-    ].unique():
-
+    for method in results_df["method"].unique():
         method_results = results_df[
             results_df["method"] == method
         ]
@@ -132,33 +134,25 @@ def save_brightness_results(results_df):
             label=method,
         )
 
-    plt.xlabel(
-        "Brightness factor"
-    )
+    plt.xlabel(r"Brightness factor $\alpha$")
+    plt.ylabel("EER (%)")
+    plt.title("Brightness variation")
 
-    plt.ylabel(
-        "EER (%)"
-    )
+    plt.xticks(BRIGHTNESS_LEVELS)
 
-    plt.title(
-        "Robustness to Brightness Changes"
-    )
-
-    # Clean/original image
     plt.axvline(
         1.0,
         linestyle="--",
+        linewidth=1.0,
         label="Original brightness",
     )
 
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
+    plt.legend(loc="best")
 
-    plt.savefig(
-        PLOTS_DIR
-        / "brightness_robustness.png",
-        dpi=200,
+    finish_plot()
+
+    save_paper_figure(
+        PLOTS_DIR / "brightness_robustness.png"
     )
 
     plt.show()

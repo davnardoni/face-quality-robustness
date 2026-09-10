@@ -1,6 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from src.plot_style import (
+    apply_paper_style,
+    finish_plot,
+    save_paper_figure,
+)
+
 from config import (
     METRICS_DIR,
     PLOTS_DIR,
@@ -30,6 +36,7 @@ from experiments.quality_aware.diagnostics import (
     analyze_rejected_blur_levels,
 )
 
+apply_paper_style()
 
 def run_quality_aware_blur_experiment():
     """
@@ -285,50 +292,32 @@ def save_quality_aware_results(
         )
     )
 
-    plt.figure(
-        figsize=(9, 6)
-    )
+    plt.figure()
 
-    for method in results_df[
-        "method"
-    ].unique():
-
+    for method in results_df["method"].unique():
         method_df = results_df[
-            results_df["method"]
-            == method
+            results_df["method"] == method
         ]
 
         plt.plot(
-            method_df[
-                "rejection_rate"
-            ] * 100,
-            method_df[
-                "eer"
-            ] * 100,
+            method_df["rejection_rate"] * 100,
+            method_df["eer"] * 100,
             marker="o",
             label=method,
         )
 
-    plt.xlabel(
-        "Rejected probe samples (%)"
-    )
+    plt.xlabel("Rejected probes (%)")
+    plt.ylabel("EER (%)")
+    plt.title("Quality-aware rejection")
 
-    plt.ylabel(
-        "EER (%)"
-    )
+    plt.xticks([0, 10, 20, 30, 40, 50])
 
-    plt.title(
-        "Sharpness-Based Quality-Aware Rejection"
-    )
+    plt.legend(loc="best")
 
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
+    finish_plot()
 
-    plt.savefig(
-        PLOTS_DIR
-        / "quality_aware_blur.png",
-        dpi=200,
+    save_paper_figure(
+        PLOTS_DIR / "quality_aware_blur.png"
     )
 
     plt.show()
