@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 from src.plot_style import (
     apply_paper_style,
+    plot_method_curve,
     finish_plot,
     save_paper_figure,
 )
@@ -299,11 +300,10 @@ def save_quality_aware_results(
             results_df["method"] == method
         ]
 
-        plt.plot(
+        plot_method_curve(
             method_df["rejection_rate"] * 100,
             method_df["eer"] * 100,
-            marker="o",
-            label=method,
+            method,
         )
 
     plt.xlabel("Rejected probes (%)")

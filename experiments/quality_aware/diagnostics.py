@@ -75,12 +75,13 @@ def analyze_quality_by_blur(
         statistics["blur_sigma"],
         statistics["mean"],
         yerr=statistics["std"],
-        marker="o",
-        linewidth=1.4,
-        markersize=3.8,
-        capsize=2.5,
-        elinewidth=0.8,
-        capthick=0.8,
+        color="#4C78A8",
+        markersize=3.2,
+        markeredgewidth=0,
+        linewidth=1.1,
+        elinewidth=0.75,
+        capsize=2.0,
+        capthick=0.75,
     )
 
     plt.xlabel(r"Gaussian blur $\sigma$")
@@ -227,7 +228,9 @@ def analyze_rejected_blur_levels(
         plt.plot(
             sigma_df["rejection_rate"] * 100,
             sigma_df["rejected_percent"],
-            marker="o",
+            linestyle="-",
+            linewidth=1.3,
+            marker=None,
             label=rf"$\sigma={sigma:g}$",
         )
 
@@ -240,7 +243,8 @@ def analyze_rejected_blur_levels(
 
     plt.legend(
         loc="upper left",
-        ncol=1,
+        frameon=True,
+        fancybox=False,
     )
 
     finish_plot()

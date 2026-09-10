@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from src.plot_style import (
     apply_paper_style,
+    plot_method_curve,
     finish_plot,
     save_paper_figure,
 )
@@ -127,11 +128,10 @@ def save_brightness_results(results_df):
             results_df["method"] == method
         ]
 
-        plt.plot(
+        plot_method_curve(
             method_results["level"],
             method_results["eer"] * 100,
-            marker="o",
-            label=method,
+            method,
         )
 
     plt.xlabel(r"Brightness factor $\alpha$")
@@ -142,8 +142,9 @@ def save_brightness_results(results_df):
 
     plt.axvline(
         1.0,
+        color="#777777",
         linestyle="--",
-        linewidth=1.0,
+        linewidth=0.8,
         label="Original brightness",
     )
 

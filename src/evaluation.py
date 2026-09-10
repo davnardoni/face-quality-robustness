@@ -195,7 +195,9 @@ def plot_score_distributions(
         genuine_scores,
         bins=50,
         density=True,
-        alpha=0.6,
+        alpha=0.55,
+        color="#4C78A8",
+        edgecolor="none",
         label="Genuine",
     )
 
@@ -203,15 +205,18 @@ def plot_score_distributions(
         impostor_scores,
         bins=50,
         density=True,
-        alpha=0.6,
+        alpha=0.55,
+        color="#F28E2B",
+        edgecolor="none",
         label="Impostor",
     )
 
     if eer_threshold is not None:
         plt.axvline(
             eer_threshold,
+            color="#666666",
             linestyle="--",
-            linewidth=1.0,
+            linewidth=0.9,
             label="EER threshold",
         )
 
