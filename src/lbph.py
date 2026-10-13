@@ -3,7 +3,7 @@ import numpy as np
 from config import (
     LBP_GRID_X,
     LBP_GRID_Y,
-    LBP_HIST_BINS,
+    LBP_HIST_BINS, #Indicates that each histogram contains 256 bins, one for each possible LBP value
 )
 
 
@@ -18,9 +18,10 @@ def compute_lbp(image):
         dtype=np.uint8,
     )
 
-    center = image[1:-1, 1:-1]
+    center = image[1:-1, 1:-1] #Selects all pixels of the image, excluding the first and last rows and the first and last columns
 
-    lbp = np.zeros_like(
+    #Creates a new matrix of the same dimensions as center, initialized entirely to zero
+    lbp = np.zeros_like( 
         center,
         dtype=np.uint8,
     )
@@ -41,7 +42,7 @@ def compute_lbp(image):
         comparison = neighbour >= center
 
         lbp |= (
-            comparison.astype(np.uint8)
+            comparison.astype(np.uint8) #Converts boolean values ​​to integers
             << bit
         )
 
@@ -106,12 +107,12 @@ def compute_lbph_descriptor(
             )
 
             histogram /= (
-                histogram.sum() + 1e-10
+                histogram.sum() + 1e-10 #normalization to avoid division by zero
             )
 
             histograms.append(histogram)
 
-    return np.concatenate(histograms)
+    return np.concatenate(histograms) #Merges all histograms into a single feature vector, which represents the LBPH descriptor for the input image
 
 
 class LBPHRecognizer:

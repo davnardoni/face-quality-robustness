@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 import torch
 
-from facenet_pytorch import InceptionResnetV1
+from facenet_pytorch import InceptionResnetV1 #Neural network architecture usable for generating facial embeddings
 
 from config import (
     DEEP_IMAGE_SIZE,
-    DEEP_BATCH_SIZE,
-    DEEP_PRETRAINED_MODEL,
+    DEEP_BATCH_SIZE, #It affects memory usage and speed
+    DEEP_PRETRAINED_MODEL, #Weights pre-trained on the VGGFace2 dataset are used
 )
 
 
@@ -17,7 +17,7 @@ class FaceNetRecognizer:
     InceptionResnetV1 model.
 
     The model produces 512-dimensional,
-    L2-normalized face embeddings.
+    L2-normalized face embeddings (an L2 normalized embedding has norm equal to 1).
     """
 
     def __init__(self):
@@ -92,7 +92,7 @@ class FaceNetRecognizer:
 
         return np.concatenate(
             embeddings,
-            axis=0,
+            axis=0, #Indicates that the concatenation must take place along the first dimension
         )
 
     @staticmethod
@@ -116,10 +116,10 @@ class FaceNetRecognizer:
 
             if image.dtype != np.uint8:
 
-                if image.max() <= 1.0:
+                if image.max() <= 1.0: #Treat the image as normalized and multiply the intensities by 255
                     image = image * 255.0
 
-                image = np.clip(
+                image = np.clip( #Limits the image values ​​to the range of 0 to 255
                     image,
                     0,
                     255,
@@ -138,7 +138,7 @@ class FaceNetRecognizer:
                 resized.copy()
             )
 
-            tensor = tensor.permute(
+            tensor = tensor.permute( #Rearranges the dimensions of the tensor from (height, width, channels) to (channels, height, width)
                 2,
                 0,
                 1,
@@ -146,10 +146,12 @@ class FaceNetRecognizer:
 
             # Same standardization used by
             # facenet-pytorch's MTCNN pipeline.
+
+            # We obtain values ​​approximately between -1 and +1
             tensor = (
                 tensor - 127.5
             ) / 128.0
 
             tensors.append(tensor)
 
-        return torch.stack(tensors)
+        return torch.stack(tensors) #Creates a new initial dimension representing the number of images: from (3, 160, 160) , ... , (3, 160, 160)  to (N, 3, 160, 160)

@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from config import (
     SPLITS_DIR,
@@ -90,94 +89,6 @@ def load_split():
     return pd.read_csv(split_path)
 
 
-def show_split_examples(lfw, split_df):
-    """
-    Display one training, gallery and probe example.
-    """
-
-    split_names = ["train", "gallery", "probe"]
-
-    fig, axes = plt.subplots(2, 3, figsize=(10, 7))
-
-    for column, split_name in enumerate(split_names):
-
-        row = split_df[
-            split_df["split"] == split_name
-        ].iloc[0]
-
-        image_index = int(row["image_index"])
-        subject = row["subject"]
-
-        original = lfw.images[image_index]
-        processed = preprocess_classical(original)
-
-        axes[0, column].imshow(
-            to_uint8(original)
-        )
-
-        axes[0, column].set_title(
-            f"{split_name.upper()}\n{subject}"
-        )
-
-        axes[0, column].axis("off")
-
-        axes[1, column].imshow(
-            processed,
-            cmap="gray",
-        )
-
-        axes[1, column].set_title(
-            f"Processed {processed.shape}"
-        )
-
-        axes[1, column].axis("off")
-
-    plt.tight_layout()
-    plt.show()
-
-
-def print_preprocessing_info(lfw, split_df):
-    """
-    Print a small sanity check for preprocessing.
-    """
-
-    row = split_df.iloc[0]
-
-    image_index = int(row["image_index"])
-
-    original = lfw.images[image_index]
-    processed = preprocess_classical(original)
-
-    print("=== PREPROCESSING CHECK ===")
-
-    print(
-        f"Original shape:   {original.shape}"
-    )
-
-    print(
-        f"Original dtype:   {original.dtype}"
-    )
-
-    print(
-        f"Original range:   "
-        f"[{original.min()}, {original.max()}]"
-    )
-
-    print()
-
-    print(
-        f"Processed shape:  {processed.shape}"
-    )
-
-    print(
-        f"Processed dtype:  {processed.dtype}"
-    )
-
-    print(
-        f"Processed range:  "
-        f"[{processed.min()}, {processed.max()}]"
-    )
-
 def get_split_images(
     lfw,
     split_df,
@@ -245,20 +156,4 @@ def get_preprocessed_images(
     return (
         np.asarray(images),
         np.asarray(labels),
-    )
-
-if __name__ == "__main__":
-
-    dataset = load_lfw_dataset()
-
-    split = load_split()
-
-    print_preprocessing_info(
-        dataset,
-        split,
-    )
-
-    show_split_examples(
-        dataset,
-        split,
     )

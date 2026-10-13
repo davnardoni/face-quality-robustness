@@ -32,7 +32,8 @@ GALLERY_SAMPLES_PER_SUBJECT = 1
 PROBE_SAMPLES_PER_SUBJECT = 4
 
 # Classical recognition preprocessing
-CLASSICAL_IMAGE_SIZE = (94, 125)  # OpenCV uses (width, height)
+# 94 x 125 is a tradeoff between image detail and computational cost
+CLASSICAL_IMAGE_SIZE = (94, 125)  # OpenCV uses (width, height) 
 
 # Eigenfaces / PCA
 PCA_EXPLAINED_VARIANCE = 0.95

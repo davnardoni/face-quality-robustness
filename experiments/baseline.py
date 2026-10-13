@@ -359,6 +359,6 @@ def run_deep_baseline():
     )
 
 if __name__ == "__main__":
-    #run_eigenfaces_baseline()
-    #run_lbph_baseline()
+    run_eigenfaces_baseline()
+    run_lbph_baseline()
     run_deep_baseline()

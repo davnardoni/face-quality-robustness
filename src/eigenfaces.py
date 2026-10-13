@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn.decomposition import PCA
+from sklearn.decomposition import PCA 
 
 from config import (
     PCA_EXPLAINED_VARIANCE,
@@ -18,15 +18,14 @@ class EigenfacesRecognizer:
         self,
         explained_variance=PCA_EXPLAINED_VARIANCE,
     ):
-        self.variance_threshold = explained_variance
 
         self.pca = PCA(
             n_components=explained_variance,
-            svd_solver="full",
-            whiten=False, 
+            svd_solver="full", #Computes the principal components used by PCA
+            whiten=False, #The PCA representation preserves the differing variance scales of the components, rather than making them all equal
         )
 
-        self.is_fitted = False
+        self.is_fitted = False #PCA model is not fitted yet
 
     def fit(self, images):
         """
@@ -38,7 +37,7 @@ class EigenfacesRecognizer:
             Preprocessed grayscale face images.
         """
 
-        X = self._flatten_images(images)
+        X = self._flatten_images(images) #This operation is necessary because PCA operates on feature vectors
 
         self.pca.fit(X)
 
@@ -75,9 +74,9 @@ class EigenfacesRecognizer:
             N x (H*W)
         """
 
-        images = np.asarray(images, dtype=np.float32)
+        images = np.asarray(images, dtype=np.float32) #Converts images into a NumPy array of type float32
 
-        return images.reshape(len(images), -1)
+        return images.reshape(len(images), -1) #-1 tells NumPy to automatically calculate how many columns are needed
 
     @property
     def n_components(self):
@@ -109,7 +108,7 @@ def show_eigenfaces(recognizer):
     Display the PCA mean face and first eigenfaces.
     """
 
-    width, height = CLASSICAL_IMAGE_SIZE
+    width, height = CLASSICAL_IMAGE_SIZE 
 
     mean_face = recognizer.pca.mean_.reshape(
         height,
