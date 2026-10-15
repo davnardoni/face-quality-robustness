@@ -152,9 +152,7 @@ def prepare_robustness_experiment():
 
     eigenfaces = EigenfacesRecognizer()
 
-    eigenfaces.fit(
-        train_images
-    )
+    eigenfaces.fit(train_images)
 
     lbph = LBPHRecognizer()
 
@@ -168,17 +166,11 @@ def prepare_robustness_experiment():
         "Computing clean gallery embeddings..."
     )
 
-    gallery_eigenfaces = eigenfaces.transform(
-        gallery_classical
-    )
+    gallery_eigenfaces = eigenfaces.transform(gallery_classical)
 
-    gallery_lbph = lbph.transform(
-        gallery_classical
-    )
+    gallery_lbph = lbph.transform(gallery_classical)
 
-    gallery_facenet = facenet.transform(
-        gallery_rgb
-    )
+    gallery_facenet = facenet.transform(gallery_rgb)
 
     return {
         "probe_rgb": probe_rgb,
@@ -229,11 +221,7 @@ def evaluate_degraded_probes(
     # EIGENFACES
     # -------------------------------------------------
 
-    probe_eigenfaces = context[
-        "eigenfaces"
-    ].transform(
-        degraded_probe_classical
-    )
+    probe_eigenfaces = context["eigenfaces"].transform(degraded_probe_classical)
 
     eer, threshold = evaluate_embeddings(
         probe_eigenfaces,
@@ -252,11 +240,7 @@ def evaluate_degraded_probes(
     # LBPH
     # -------------------------------------------------
 
-    probe_lbph = context[
-        "lbph"
-    ].transform(
-        degraded_probe_classical
-    )
+    probe_lbph = context["lbph"].transform(degraded_probe_classical)
 
     eer, threshold = evaluate_embeddings(
         probe_lbph,
@@ -275,11 +259,7 @@ def evaluate_degraded_probes(
     # FACENET
     # -------------------------------------------------
 
-    probe_facenet = context[
-        "facenet"
-    ].transform(
-        degraded_probe_rgb
-    )
+    probe_facenet = context["facenet"].transform(degraded_probe_rgb)
 
     eer, threshold = evaluate_embeddings(
         probe_facenet,

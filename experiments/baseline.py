@@ -69,17 +69,11 @@ def run_eigenfaces_baseline():
     # PCA is learned only from training images
     recognizer.fit(train_images)
 
-    train_embeddings = recognizer.transform(
-        train_images
-    )
+    train_embeddings = recognizer.transform(train_images)
 
-    gallery_embeddings = recognizer.transform(
-        gallery_images
-    )
+    gallery_embeddings = recognizer.transform(gallery_images)
 
-    probe_embeddings = recognizer.transform(
-        probe_images
-    )
+    probe_embeddings = recognizer.transform(probe_images)
 
     print_pca_info(
         recognizer,
@@ -170,13 +164,9 @@ def run_lbph_baseline():
 
     recognizer = LBPHRecognizer()
 
-    gallery_embeddings = recognizer.transform(
-        gallery_images
-    )
+    gallery_embeddings = recognizer.transform(gallery_images)
 
-    probe_embeddings = recognizer.transform(
-        probe_images
-    )
+    probe_embeddings = recognizer.transform(probe_images)
 
     print()
     print("=== LBP / LBPH ===")
@@ -283,13 +273,9 @@ def run_deep_baseline():
         f"{recognizer.device}"
     )
 
-    gallery_embeddings = recognizer.transform(
-        gallery_images
-    )
+    gallery_embeddings = recognizer.transform(gallery_images)
 
-    probe_embeddings = recognizer.transform(
-        probe_images
-    )
+    probe_embeddings = recognizer.transform(probe_images)
 
     print(
         f"Gallery embeddings:     "

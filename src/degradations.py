@@ -58,7 +58,7 @@ def gaussian_blur(image, sigma):
 def gaussian_noise(
     image,
     sigma,
-    rng=None,
+    rng=None, 
 ):
     """
     Add zero-mean Gaussian noise.

@@ -66,7 +66,7 @@ def create_mixed_blur_probes(
         )
 
         levels.append(
-            np.full(
+            np.full( #Creates an array filled with the same value, that is sigma
                 len(probe_labels),
                 sigma,
                 dtype=np.float32,
@@ -102,7 +102,7 @@ def compute_rejection_curve(
 
     results = []
 
-    sorted_indices = np.argsort(
+    sorted_indices = np.argsort( #It returns the indices in order of quality
         quality_scores
     )
 
@@ -113,10 +113,7 @@ def compute_rejection_curve(
     for rejection_rate in REJECTION_RATES:
 
         n_reject = int(
-            np.floor(
-                rejection_rate
-                * n_samples
-            )
+            np.floor(rejection_rate * n_samples)
         )
 
         rejected_indices = (
@@ -125,23 +122,17 @@ def compute_rejection_curve(
 
         keep_mask = np.ones(
             n_samples,
-            dtype=bool,
+            dtype=bool, #Convers every 1 to True
         )
 
-        keep_mask[
-            rejected_indices
-        ] = False
+        keep_mask[rejected_indices] = False
 
         retained_distances = (
-            distance_matrix[
-                keep_mask
-            ]
+            distance_matrix[keep_mask] #By applying keep_mask, we select only the rows corresponding to the retained probes
         )
 
         retained_labels = (
-            probe_labels[
-                keep_mask
-            ]
+            probe_labels[keep_mask]
         )
 
         genuine_scores, impostor_scores = (
@@ -167,13 +158,8 @@ def compute_rejection_curve(
 
         results.append(
             {
-                "rejection_rate": (
-                    n_reject
-                    / n_samples
-                ),
-                "retained_samples": (
-                    np.sum(keep_mask)
-                ),
+                "rejection_rate": (n_reject / n_samples),
+                "retained_samples": (np.sum(keep_mask)),
                 "eer": eer,
                 "threshold": threshold,
             }

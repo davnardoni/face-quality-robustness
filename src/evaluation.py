@@ -66,8 +66,8 @@ def compute_far_frr(
             impostor_scores.max(),
         )
 
-        thresholds = np.linspace(
-            minimum,
+        thresholds = np.linspace( #Generates num_thresholds equidistant values ​​between minimum and maximum, including both endpoints
+            minimum, 
             maximum,
             num_thresholds,
         )
@@ -79,7 +79,7 @@ def compute_far_frr(
 
         # Impostor accepted incorrectly
         far[i] = np.mean(
-            impostor_scores <= threshold
+            impostor_scores <= threshold #NumPy interprets True as 1 and False as 0 when calculating their mean
         )
 
         # Genuine rejected incorrectly
@@ -102,8 +102,8 @@ def compute_eer(
     where |FAR - FRR| is minimum.
     """
 
-    index = np.argmin(
-        np.abs(far - frr)
+    index = np.argmin( #.argmin returns the index of the minimum value
+        np.abs(far - frr) #.abs takes the absolute value because we are interested in how close the two rates are, regardless of which one is greater
     )
 
     eer = (

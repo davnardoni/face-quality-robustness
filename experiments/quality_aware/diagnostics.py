@@ -35,7 +35,7 @@ def analyze_quality_by_blur(
         }
     )
 
-    statistics = (
+    statistics = ( 
         quality_df
         .groupby("blur_sigma")["quality"]
         .agg(["mean", "std"])
@@ -64,8 +64,7 @@ def analyze_quality_by_blur(
     )
 
     statistics.to_csv(
-        METRICS_DIR
-        / "sharpness_by_blur.csv",
+        METRICS_DIR / "sharpness_by_blur.csv",
         index=False,
     )
 
@@ -133,20 +132,16 @@ def analyze_rejected_blur_levels(
     for rejection_rate in REJECTION_RATES:
 
         n_reject = int(
-            np.floor(
-                rejection_rate
-                * n_samples
-            )
+            np.floor(rejection_rate * n_samples)
         )
 
         rejected_indices = (
             sorted_indices[:n_reject]
         )
 
+        #Now that we have decided what to discard, we look at the sigma values ​​those images had
         rejected_blur_levels = (
-            blur_levels[
-                rejected_indices
-            ]
+            blur_levels[rejected_indices]
         )
 
         for sigma in unique_blur_levels:
@@ -160,26 +155,16 @@ def analyze_rejected_blur_levels(
             )
 
             rejected_percent = (
-                100.0
-                * rejected_at_level
-                / total_at_level
+                100.0 * rejected_at_level / total_at_level
             )
 
             rows.append(
                 {
-                    "rejection_rate": (
-                        rejection_rate
-                    ),
+                    "rejection_rate": (rejection_rate),
                     "blur_sigma": sigma,
-                    "rejected_count": (
-                        rejected_at_level
-                    ),
-                    "total_samples": (
-                        total_at_level
-                    ),
-                    "rejected_percent": (
-                        rejected_percent
-                    ),
+                    "rejected_count": (rejected_at_level),
+                    "total_samples": (total_at_level),
+                    "rejected_percent": (rejected_percent),
                 }
             )
 
@@ -192,7 +177,7 @@ def analyze_rejected_blur_levels(
         "=== REJECTED SAMPLES BY BLUR LEVEL ==="
     )
 
-    pivot = results_df.pivot(
+    pivot = results_df.pivot( 
         index="rejection_rate",
         columns="blur_sigma",
         values="rejected_percent",
@@ -213,8 +198,7 @@ def analyze_rejected_blur_levels(
     )
 
     results_df.to_csv(
-        METRICS_DIR
-        / "rejected_samples_by_blur.csv",
+        METRICS_DIR / "rejected_samples_by_blur.csv",
         index=False,
     )
 

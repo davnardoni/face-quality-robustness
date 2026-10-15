@@ -7,9 +7,6 @@ from config import (
     CLASSICAL_IMAGE_SIZE,
 )
 
-from src.dataset import load_lfw_dataset
-
-
 def to_uint8(image):
     """
     Convert an image to uint8 in the range [0, 255].

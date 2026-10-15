@@ -32,7 +32,7 @@ def euclidean_distance_matrix(
         - gallery_embeddings[np.newaxis, :, :]
     )
 
-    distances = np.linalg.norm(
+    distances = np.linalg.norm( #Euclidean norm
         differences,
         axis=2,
     )
@@ -103,7 +103,7 @@ def chi_square_distance_matrix(
     n_probes = probe_embeddings.shape[0]
     n_gallery = gallery_embeddings.shape[0]
 
-    distances = np.empty(
+    distances = np.empty( #Allocates a matrix of the requested size without initializing its values
         (n_probes, n_gallery),
         dtype=np.float32,
     )

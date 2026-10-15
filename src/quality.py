@@ -46,14 +46,14 @@ def sharpness_estimation(image):
         image
     )
 
-    horizontal_differences = np.abs(
-        gray[:, 1:]
-        - gray[:, :-1]
+    horizontal_differences = np.abs( #We are computing the absolute difference between each pixel and its immediate left-hand neighbor
+        gray[:, 1:] #Takes all the rows and all the columns from the second one onwards
+        - gray[:, :-1] #Takes all the rows and excludes the last column
     )
 
-    vertical_differences = np.abs(
+    vertical_differences = np.abs( #We are computing the absolute difference between each pixel and its immediate upper neighbor
         gray[1:, :]
-        - gray[:-1, :]
+        - gray[:-1, :] 
     )
 
     horizontal_mean = np.mean(

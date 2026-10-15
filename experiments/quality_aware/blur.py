@@ -45,26 +45,16 @@ def run_quality_aware_blur_experiment():
     using a mixed Gaussian-blur probe set.
     """
 
-    context = (
-        prepare_robustness_experiment()
-    )
+    context = (prepare_robustness_experiment())
 
-    probe_rgb = context[
-        "probe_rgb"
-    ]
+    probe_rgb = context["probe_rgb"]
 
-    probe_labels = context[
-        "probe_labels"
-    ]
+    probe_labels = context["probe_labels"]
 
-    gallery_labels = context[
-        "gallery_labels"
-    ]
+    gallery_labels = context["gallery_labels"]
 
     print()
-    print(
-        "Creating mixed-quality probe set..."
-    )
+    print("Creating mixed-quality probe set...")
 
     (
         mixed_probe_rgb,
@@ -84,14 +74,10 @@ def run_quality_aware_blur_experiment():
     # QUALITY ESTIMATION
     # -------------------------------------------------
 
-    print(
-        "Computing sharpness quality scores..."
-    )
+    print("Computing sharpness quality scores...")
 
     quality_scores = (
-        compute_sharpness_scores(
-            mixed_probe_rgb
-        )
+        compute_sharpness_scores(mixed_probe_rgb)
     )
 
     analyze_quality_by_blur(
@@ -111,9 +97,7 @@ def run_quality_aware_blur_experiment():
     # -------------------------------------------------
 
     mixed_probe_classical = (
-        preprocess_classical_batch(
-            mixed_probe_rgb
-        )
+        preprocess_classical_batch(mixed_probe_rgb)
     )
 
     all_results = []
@@ -123,22 +107,14 @@ def run_quality_aware_blur_experiment():
     # -------------------------------------------------
 
     print()
-    print(
-        "Computing Eigenfaces embeddings..."
-    )
+    print("Computing Eigenfaces embeddings...")
 
-    eigenfaces_embeddings = context[
-        "eigenfaces"
-    ].transform(
-        mixed_probe_classical
-    )
+    eigenfaces_embeddings = context["eigenfaces"].transform(mixed_probe_classical)
 
     eigenfaces_distances = (
         euclidean_distance_matrix(
             eigenfaces_embeddings,
-            context[
-                "gallery_eigenfaces"
-            ],
+            context["gallery_eigenfaces"],
         )
     )
 
@@ -151,34 +127,22 @@ def run_quality_aware_blur_experiment():
         )
     )
 
-    eigenfaces_results[
-        "method"
-    ] = "Eigenfaces"
+    eigenfaces_results["method"] = "Eigenfaces"
 
-    all_results.append(
-        eigenfaces_results
-    )
+    all_results.append(eigenfaces_results)
 
     # -------------------------------------------------
     # LBPH
     # -------------------------------------------------
 
-    print(
-        "Computing LBPH embeddings..."
-    )
+    print("Computing LBPH embeddings...")
 
-    lbph_embeddings = context[
-        "lbph"
-    ].transform(
-        mixed_probe_classical
-    )
+    lbph_embeddings = context["lbph"].transform(mixed_probe_classical)
 
     lbph_distances = (
         chi_square_distance_matrix(
             lbph_embeddings,
-            context[
-                "gallery_lbph"
-            ],
+            context["gallery_lbph"],
         )
     )
 
@@ -191,34 +155,22 @@ def run_quality_aware_blur_experiment():
         )
     )
 
-    lbph_results[
-        "method"
-    ] = "LBPH"
+    lbph_results["method"] = "LBPH"
 
-    all_results.append(
-        lbph_results
-    )
+    all_results.append(lbph_results)
 
     # -------------------------------------------------
     # FACENET
     # -------------------------------------------------
 
-    print(
-        "Computing FaceNet embeddings..."
-    )
+    print("Computing FaceNet embeddings...")
 
-    facenet_embeddings = context[
-        "facenet"
-    ].transform(
-        mixed_probe_rgb
-    )
+    facenet_embeddings = context["facenet"].transform(mixed_probe_rgb)
 
     facenet_distances = (
         euclidean_distance_matrix(
             facenet_embeddings,
-            context[
-                "gallery_facenet"
-            ],
+            context["gallery_facenet"],
         )
     )
 
@@ -231,22 +183,16 @@ def run_quality_aware_blur_experiment():
         )
     )
 
-    facenet_results[
-        "method"
-    ] = "FaceNet"
+    facenet_results["method"] = "FaceNet"
 
-    all_results.append(
-        facenet_results
-    )
+    all_results.append(facenet_results)
 
     results_df = pd.concat(
         all_results,
         ignore_index=True,
     )
 
-    save_quality_aware_results(
-        results_df
-    )
+    save_quality_aware_results(results_df)
 
     return results_df
 
@@ -270,15 +216,12 @@ def save_quality_aware_results(
     )
 
     results_df.to_csv(
-        METRICS_DIR
-        / "quality_aware_blur.csv",
+        METRICS_DIR / "quality_aware_blur.csv",
         index=False,
     )
 
     print()
-    print(
-        "=== QUALITY-AWARE REJECTION ==="
-    )
+    print("=== QUALITY-AWARE REJECTION ===")
 
     print(
         results_df[
