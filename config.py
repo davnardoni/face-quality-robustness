@@ -6,12 +6,10 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 # Data directories
 DATA_DIR = PROJECT_ROOT / "data"
 RAW_DATA_DIR = DATA_DIR / "raw"
-PROCESSED_DATA_DIR = DATA_DIR / "processed"
 SPLITS_DIR = DATA_DIR / "splits"
 
 # Results directories
 RESULTS_DIR = PROJECT_ROOT / "results"
-SCORES_DIR = RESULTS_DIR / "scores"
 METRICS_DIR = RESULTS_DIR / "metrics"
 PLOTS_DIR = RESULTS_DIR / "plots"
 
